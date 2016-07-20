@@ -1,0 +1,15 @@
+#fretboard-container {
+	position: relative;
+	width: 100%;
+}
+
+.marker {
+	width: 1.1%;
+	position: absolute;
+	visibility: hidden;
+}
+
+#warning {
+	color: red;
+	font-weight: bold;
+}

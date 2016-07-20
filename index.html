@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<!-- Bootstrap CSS-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	<body>
+		<div class="container-fluid">
+			<h3>Chord Finder</h3>
+<!-- 			<img class="marker" id="lowE" src="img/marker.png" />
+			<img class="marker" id="A" src="img/marker.png" />
+			<img class="marker" id="D" src="img/marker.png" />
+			<img class="marker" id="G" src="img/marker.png" />
+			<img class="marker" id="B" src="img/marker.png" />
+			<img class="marker" id="highE" class="marker" src="img/marker.png" />
+
+			<img id="fretboard" style="width: 100%" src="img/fretboard_cropped.png" /> -->
+			<div id="fretboard-container">
+				<img class="marker" id="lowE" src="img/marker.png" />
+				<img class="marker" id="A" src="img/marker.png" />
+				<img class="marker" id="D" src="img/marker.png" />
+				<img class="marker" id="G" src="img/marker.png" />
+				<img class="marker" id="B" src="img/marker.png" />
+				<img class="marker" id="highE" class="marker" src="img/marker.png" />
+				<img id="fretboard" style="width: 100%" src="img/fretboard_cropped.png" />
+			</div>
+
+			<br><br>
+			<button id="findChord" class="btn btn-success">Find Chord</button>
+			<button id="clearAll" class="btn btn-default">Clear All</button>
+			<br>
+			<h5 id='warning'></h5>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+					<h4 class="modal-title" id="label">Your chord is...</h4>
+				</div>
+				<div class="modal-body">
+					<h2 id='chordName'>Chord</h2>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+		<!-- Bootstrap JS -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<!-- Main JS -->
+		<script src="js/main.js"></script>
+	</body>
+</html>
