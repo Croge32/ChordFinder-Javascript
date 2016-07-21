@@ -37,21 +37,31 @@ $('.marker').click(function() {
 $('#findChord').click(function() {
 	var notesList = [];
 	var scale;
+	var notesText = '';
+	var chord = {};
 
 	$('.marker').each(function(index) {
 		if ($(this).css('visibility') == 'visible') {
 			var stringPerc = $(this)[0].style.top;
-			var fretPerc = $(this)[0].style.left
+			var fretPerc = $(this)[0].style.left;
+
 			notesList.push(getNote(getFretFromPerc(fretPerc)+getStringFromPerc(stringPerc)));
+			console.log($('#chordNotes').text());
+			notesText = notesText + ' ' + getNote(getFretFromPerc(fretPerc)+getStringFromPerc(stringPerc));
 		}
 	});
 
 	if (notesList.length === 0) {
 		$('#warning').text('Please select frets to identify a chord.');
+	} else if (notesList.length < 3) {
+		$('#warning').text('Please select at least 3 notes to form a chord.');
 	} else {
 		$('#warning').text('');
 		scale = getScale(notesList[0]);
-		$('#chordName').text(notesList[0]+' '+identifyChord(getInterval(notesList, scale)));
+		chord = identifyChord(getInterval(notesList, scale));
+		$('#chordName').text(notesList[0]+' '+chord.name);
+		$('#chordNotes').text('Notes: '+notesText);
+		$('#chordInterval').text('Interval: '+chord.interval);
 		$('#modal').modal('show');
 	}
 });
@@ -254,57 +264,115 @@ function getInterval(notes, scale) {
 }
 
 function identifyChord(interval) {
-	if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('7') >= 0) {
-		return 'Major 9th';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Minor 9th';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Half Diminished';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Dominant 9th';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('6') >= 0) {
-		return 'Diminished 7th';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('3') >= 0 && interval.indexOf('#5') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Augmented 7th';
-	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Seventh Flat 5';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('7') >= 0) {
-		return 'Major 7th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Minor 7th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('7') >= 0) {
-		return 'Major/Minor 7th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('6') >= 0) {
-		return 'Major 6th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('6') >= 0) {
-		return 'Minor 6th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('4') >= 0) {
-		return 'Minor Add 4th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('b7') >= 0) {
-		return 'Dominant 7th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('4') >= 0) {
-		return 'Major Add 4th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('4') >= 0 && interval.indexOf('b7') >= 0) {
-		return '7th Suspended 4th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0) {
-		return 'Diminished';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0) {
-		return 'Major';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0) {
-		return 'Minor';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('2') >= 0) {
-		return 'Suspended 2nd';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('4') >= 0) {
-		return 'Suspended 4th';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('5') >= 0) {
-		return 'Fifth (Power Chord)';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b5') >= 0) {
-		return 'Flat Fifth';
-	} else if (interval.indexOf('1') >= 0 && interval.indexOf('#5') >= 0) {
-		return 'Augmented';
-	} else if (interval.indexOf('1') >= 0) {
-		return 'Octave';
-	} else {
-		return 'Unknown Chord';
+	var chord = {};
+
+	for (note in interval) {
+		console.log(interval[note]);
 	}
+
+	if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('7') >= 0) {
+		chord.name = 'Major 9th';
+		chord.interval = '1-3-5-7-9';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Minor 9th';
+		chord.interval = '1-b3-5-b7-9';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('2') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Dominant 9th';
+		chord.interval = '1-3-5-b7-9';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Half Diminished';
+		chord.interval = '1-b3-b5-b7';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('6') >= 0) {
+		chord.name = 'Diminished 7th';
+		chord.interval = '1-b3-b5-bb7';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('3') >= 0 && interval.indexOf('#5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Augmented 7th';
+		chord.interval = '1-3-#5-b7';
+	} else if (interval.indexOf('1') >= 0 &&  interval.indexOf('3') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Seventh Flat 5';
+		chord.interval = '1-3-b5-b7';
+	} 
+
+	else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('7') >= 0) {
+		chord.name = 'Major 7th';
+		chord.interval = '1-3-5-7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('5') >= 0 && interval.indexOf('7') >= 0) {
+		chord.name = 'Major 7th (omit 3rd)';
+		chord.interval = '1-5-7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('2') >= 0 && interval.indexOf('7') >= 0) {
+		chord.name = 'Major 9th (omit 3rd)';
+		chord.interval = '1-5-7-9';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('2') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Dominant 9th (omit 3rd)';
+		chord.interval = '1-5-b7-9';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('#5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Augmented 7th (omit 3rd)';
+		chord.interval = '1-#5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Seventh Flat 5 (omit 3rd)';
+		chord.interval = '1-b5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('6') >= 0) {
+		chord.name = 'Major 6th';
+		chord.interval = '1-3-5-6';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('5') >= 0 && interval.indexOf('6') >= 0) {
+		chord.name = 'Major 6th (omit 3rd)';
+		chord.interval = '1-5-6';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Dominant 7th';
+		chord.interval = '1-3-5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('5') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Dominant 7th (omit 3rd)';
+		chord.interval = '1-5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = 'Minor 7th';
+		chord.interval = '1-b3-5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('7') >= 0) {
+		chord.name = 'Major/Minor 7th';
+		chord.interval = '1-b3-5-7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('6') >= 0) {
+		chord.name = 'Minor 6th';
+		chord.interval = '1-b3-5-6';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('b5') >= 0) {
+		chord.name = 'Diminished';
+		chord.interval = '1-b3-b5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0 && interval.indexOf('4') >= 0) {
+		chord.name = 'Minor Add 4th';
+		chord.interval = '1-b3-4-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('4') >= 0 && interval.indexOf('b7') >= 0) {
+		chord.name = '7th Suspended 4th';
+		chord.interval = '1-4-5-b7';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0 && interval.indexOf('4') >= 0) {
+		chord.name = 'Major Add 4th';
+		chord.interval = '1-3-4-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('2') >= 0 && interval.indexOf('5') >= 0) {
+		chord.name = 'Suspended 2nd';
+		chord.interval = '1-2-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('4') >= 0 && interval.indexOf('5') >= 0) {
+		chord.name = 'Suspended 4th';
+		chord.interval = '1-4-5';
+	} 
+
+	else if (interval.indexOf('1') >= 0 && interval.indexOf('3') >= 0) {
+		chord.name = 'Major';
+		chord.interval = '1-3-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b3') >= 0) {
+		chord.name = 'Minor';
+		chord.interval = '1-b3-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('5') >= 0) {
+		chord.name = 'Fifth (Power Chord)';
+		chord.interval = '1-5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('b5') >= 0) {
+		chord.name = 'Flat Fifth';
+		chord.interval = '1-b5';
+	} else if (interval.indexOf('1') >= 0 && interval.indexOf('#5') >= 0) {
+		chord.name = 'Augmented';
+		chord.interval = '1-#5';
+	} 
+
+	else {
+		chord.name = 'Unknown Chord';
+		chord.interval = '';
+	}
+
+	return chord;
 }

@@ -8,15 +8,10 @@
 	</head>
 	<body>
 		<div class="container-fluid">
-			<h3>Chord Finder</h3>
-<!-- 			<img class="marker" id="lowE" src="img/marker.png" />
-			<img class="marker" id="A" src="img/marker.png" />
-			<img class="marker" id="D" src="img/marker.png" />
-			<img class="marker" id="G" src="img/marker.png" />
-			<img class="marker" id="B" src="img/marker.png" />
-			<img class="marker" id="highE" class="marker" src="img/marker.png" />
+			<h1>Chord Finder</h1>
 
-			<img id="fretboard" style="width: 100%" src="img/fretboard_cropped.png" /> -->
+			<p>Select at least 3 notes on the fretboard to find out what chord it makes! Click the nut for an open note.</p>
+
 			<div id="fretboard-container">
 				<img class="marker" id="lowE" src="img/marker.png" />
 				<img class="marker" id="A" src="img/marker.png" />
@@ -40,10 +35,12 @@
 				<div class="modal-content">
 					<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
-					<h4 class="modal-title" id="label">Your chord is...</h4>
+					<h3 class="modal-title" id="label">Your chord is...</h3>
 				</div>
 				<div class="modal-body">
-					<h2 id='chordName'>Chord</h2>
+					<h1 class='text-center' id='chordName'>Chord</h1>
+					<h3 id='chordNotes'>Notes</h3>
+					<h3 id='chordInterval'>Interval</h3>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
